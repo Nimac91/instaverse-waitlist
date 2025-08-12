@@ -1,5 +1,5 @@
 
-import React from 'react';
+import type { FC } from 'react';
 import { UserIcon } from './Icons';
 
 export interface ChatMessageProps {
@@ -10,7 +10,7 @@ export interface ChatMessageProps {
   theme?: 'light' | 'dark';
 }
 
-export const ChatMessage: React.FC<ChatMessageProps> = ({ isSender, translatedText, originalText, avatarUrl, theme = 'light' }) => {
+export const ChatMessage: FC<ChatMessageProps> = ({ isSender, translatedText, originalText, avatarUrl, theme = 'light' }) => {
   const bubbleClasses = isSender
     ? 'bg-blue-600 text-white rounded-t-xl rounded-bl-xl'
     : theme === 'dark'

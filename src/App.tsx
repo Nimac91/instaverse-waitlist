@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { PhoneMockup, conversations } from './components/PhoneMockup';
 import { InstaVerseLogo } from './components/InstaVerseLogo';
@@ -65,7 +65,7 @@ const App: React.FC = () => {
         contents: prompt,
       });
 
-      setConfirmationMessage(response.text);
+      setConfirmationMessage(response.text ?? "Your spot is confirmed! We can't wait to see you.");
       setSubmitted(true);
       setEmail('');
     } catch (err) {

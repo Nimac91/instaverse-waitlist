@@ -1,5 +1,5 @@
 
-import React from 'react';
+import type { FC } from 'react';
 import { ChatMessage, ChatMessageProps } from './ChatMessage';
 import { ArrowLeftIcon, MoreHorizontalIcon, PaperAirplaneIcon } from './Icons';
 
@@ -94,7 +94,7 @@ const messagePlaceholders: { [key: string]: string } = {
     Arabic: 'رسالة...',
 };
 
-const ChatScreen: React.FC<ChatScreenProps> = ({ conversation, perspectiveIndex, theme, phoneStyle }) => {
+const ChatScreen: FC<ChatScreenProps> = ({ conversation, perspectiveIndex, theme, phoneStyle }) => {
     const currentUser = conversation.partners[perspectiveIndex];
     const otherUser = conversation.partners[perspectiveIndex === 0 ? 1 : 0];
     const isDark = theme === 'dark';
@@ -152,7 +152,7 @@ interface PhoneMockupProps {
     theme?: Theme;
 }
 
-export const PhoneMockup: React.FC<PhoneMockupProps> = ({ conversation, perspectiveIndex, className, phoneStyle = 'ios', theme = 'light' }) => {
+export const PhoneMockup: FC<PhoneMockupProps> = ({ conversation, perspectiveIndex, className, phoneStyle = 'ios', theme = 'light' }) => {
     const isIOS = phoneStyle === 'ios';
 
     const frameClasses = isIOS 
