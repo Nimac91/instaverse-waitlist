@@ -1,10 +1,56 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { GoogleGenAI } from "@google/genai";
+import { useTranslation } from 'react-i18next';
 import { PhoneMockup, conversations } from './components/PhoneMockup';
 import { InstaVerseLogo } from './components/InstaVerseLogo';
+import { GlobeAltIcon } from './components/Icons';
 
-const App: React.FC = () => {
+// Language switcher component
+const LanguageSwitcher: FC = () => {
+    const { i18n } = useTranslation();
+
+    const languages = [
+        { code: 'en', name: 'English' }, { code: 'es', name: 'Español' },
+        { code: 'ja', name: '日本語' }, { code: 'fr', name: 'Français' },
+        { code: 'de', name: 'Deutsch' }, { code: 'ko', name: '한국어' },
+        { code: 'zh', name: '中文' }, { code: 'ru', name: 'Русский' },
+        { code: 'ar', name: 'العربية' }, { code: 'pt', name: 'Português' },
+        { code: 'it', name: 'Italiano' }, { code: 'hi', name: 'हिन्दी' },
+        { code: 'nl', name: 'Nederlands' }, { code: 'tr', name: 'Türkçe' },
+        { code: 'pl', name: 'Polski' },
+    ];
+
+    const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        i18n.changeLanguage(e.target.value);
+    };
+
+    return (
+        <div className="relative inline-block text-left mt-4 md:mt-0">
+            <div className="group">
+                 <div className="inline-flex items-center text-gray-500">
+                    <GlobeAltIcon className="w-5 h-5 mr-2" />
+                    <select
+                        onChange={changeLanguage}
+                        value={i18n.language}
+                        className="bg-white text-gray-500 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 py-1 pr-8 appearance-none"
+                        aria-label="Select language"
+                    >
+                        {languages.map(lang => (
+                            <option key={lang.code} value={lang.code}>
+                                {lang.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
+const App: FC = () => {
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -20,27 +66,16 @@ const App: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  /**
-   * Sends the user's email to a Google Apps Script endpoint, which then
-   * logs it to a Google Sheet. This is a "fire-and-forget" request.
-   */
   const logEmailToSheet = async (emailToLog: string) => {
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwrJ9_qVrrMFsoQeKEdFnqgLIRXIZFaeZWbxqUYVcalZ2A61BpjMCbQ8KKKnMfZDK6/exec";
-
     try {
-      // We use 'no-cors' mode because a cross-origin request to a simple
-      // Apps Script endpoint will be blocked by CORS policies otherwise.
-      // This sends the data without needing to read the response.
       await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json', },
         body: JSON.stringify({ email: emailToLog }),
       });
     } catch (error) {
-      // This error is for developers and won't be shown to the user.
       console.error('Failed to log email to Google Sheet:', error);
     }
   };
@@ -52,34 +87,33 @@ const App: React.FC = () => {
     setIsLoading(true);
     setError(null);
 
-    // Log the email to the Google Sheet without waiting for a response.
     await logEmailToSheet(email);
 
-    // Proceed to generate a confirmation message with the Gemini API.
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      const prompt = `A user with the email ${email} just signed up for the waitlist for "InstaVerse", our new AI chat app that offers real-time translation. Generate a short, enthusiastic, and friendly confirmation message (2-3 sentences). Confirm they're on the waitlist and build excitement for the launch.`;
+      const prompt = `A user with the email ${email} just signed up for the waitlist for "InstaVerse", our new AI chat app that offers real-time translation. Generate a short, enthusiastic, and friendly confirmation message (2-3 sentences) in the language with this code: ${i18n.language}. Confirm they're on the waitlist and build excitement for the launch.`;
       
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: prompt,
       });
 
-      setConfirmationMessage(response.text ?? "Your spot is confirmed! We can't wait to see you.");
+      setConfirmationMessage(response.text ?? t('form.success.fallback'));
       setSubmitted(true);
       setEmail('');
-    } catch (err) {
+    } catch (err)
+ {
       console.error("API Error:", err);
-      setError("We couldn't add you to the waitlist right now. Please check your connection and try again.");
+      setError(t('form.error'));
     } finally {
       setIsLoading(false);
     }
   };
 
   const howItWorks = [
-    { num: 1, title: 'Write Naturally', description: 'Type in your native language. Our AI understands the nuance and context.' },
-    { num: 2, title: 'Instant AI Translation', description: 'Your message is translated in real-time with stunning accuracy, making conversation flow.' },
-    { num: 3, title: 'Build Connections', description: 'Read both the translation and original text to learn, connect, and make friends globally.' },
+    { num: 1, title: t('howItWorks.step1.title'), description: t('howItWorks.step1.description') },
+    { num: 2, title: t('howItWorks.step2.title'), description: t('howItWorks.step2.description') },
+    { num: 3, title: t('howItWorks.step3.title'), description: t('howItWorks.step3.description') },
   ];
   
   const supportedLanguages = [
@@ -99,16 +133,16 @@ const App: React.FC = () => {
               <div className="lg:col-span-1 text-center lg:text-left">
                 <InstaVerseLogo className="mb-8 mx-auto lg:mx-0" />
                 <h1 className="text-5xl font-extrabold tracking-tighter leading-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-500">
-                  Chat in Any Language.
+                  {t('hero.title.line1')}
                   <br />
-                  Your Words, Their Language.
+                  {t('hero.title.line2')}
                 </h1>
                 <p className="mt-6 text-lg text-gray-600 max-w-xl mx-auto lg:mx-0">
-                  Experience the magic of real-time AI translation. InstaVerse helps you build genuine connections by breaking down language barriers, effortlessly.
+                  {t('hero.description')}
                 </p>
                 {submitted ? (
                     <div className="mt-8 max-w-md mx-auto lg:mx-0 bg-green-100 border border-green-200 text-green-800 p-4 rounded-lg animate-fade-in-up">
-                        <p className="font-bold">🎉 Welcome to the future!</p>
+                        <p className="font-bold">{t('form.success.title')}</p>
                         <p className="mt-1">{confirmationMessage}</p>
                     </div>
                 ) : (
@@ -117,7 +151,7 @@ const App: React.FC = () => {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter your email"
+                        placeholder={t('form.placeholder')}
                         className="flex-grow w-full px-5 py-3 text-base text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                         required
                         disabled={isLoading}
@@ -133,9 +167,9 @@ const App: React.FC = () => {
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
-                                Joining...
+                                {t('form.loading')}
                             </>
-                        ) : 'Get Early Access'}
+                        ) : t('form.button')}
                     </button>
                     </form>
                 )}
@@ -168,7 +202,7 @@ const App: React.FC = () => {
           {/* How It Works Section */}
           <section className="py-16 sm:py-24 bg-gray-50/70">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-4xl font-extrabold text-center text-gray-900 tracking-tight">Connect in 3 Simple Steps</h2>
+                <h2 className="text-4xl font-extrabold text-center text-gray-900 tracking-tight">{t('howItWorks.title')}</h2>
                 <div className="mt-12 grid md:grid-cols-3 gap-12 text-center">
                     {howItWorks.map((item) => (
                         <div key={item.num} className="flex flex-col items-center">
@@ -185,9 +219,9 @@ const App: React.FC = () => {
           <section className="py-16 sm:py-24">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
-                    <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">Everything You Need to Connect Globally</h2>
+                    <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">{t('languages.title')}</h2>
                      <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-600">
-                        We support a growing list of major world languages, making it easier than ever to find new friends and explore new cultures. And we're always adding more!
+                        {t('languages.description')}
                     </p>
                 </div>
                 <div className="mt-12 max-w-4xl mx-auto flex flex-wrap justify-center gap-x-4 gap-y-4">
@@ -197,7 +231,7 @@ const App: React.FC = () => {
                         </div>
                     ))}
                     <div className="bg-blue-100 border border-transparent text-blue-800 rounded-full px-5 py-2 text-base font-medium cursor-default">
-                        + More Soon
+                        {t('languages.moreSoon')}
                     </div>
                 </div>
             </div>
@@ -206,8 +240,8 @@ const App: React.FC = () => {
           {/* Bottom Phones Showcase */}
           <section className="py-16 sm:py-24 bg-gray-50/70">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
-                <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">Your World, Connected</h2>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600">InstaVerse opens up a universe of new friends and experiences. See how easy it is to start a conversation.</p>
+                <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">{t('showcase.title')}</h2>
+                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600">{t('showcase.description')}</p>
             </div>
             <div className="relative w-full overflow-hidden">
                 <div className="flex animate-marquee">
@@ -226,8 +260,9 @@ const App: React.FC = () => {
           </section>
         </main>
         <footer className="border-t border-gray-200 py-6 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <p className="text-gray-500 text-sm">&copy; {new Date().getFullYear()} InstaVerse. All rights reserved.</p>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-center">
+                 <p className="text-gray-500 text-sm">&copy; {new Date().getFullYear()} InstaVerse. {t('footer.copyright')}</p>
+                <LanguageSwitcher />
             </div>
         </footer>
       </div>
