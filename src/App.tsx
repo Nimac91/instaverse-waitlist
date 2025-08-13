@@ -59,6 +59,14 @@ const App: FC = () => {
   const [currentConversationIndex, setCurrentConversationIndex] = useState(0);
 
   useEffect(() => {
+    // This effect updates the HTML tag's lang and dir attributes
+    // whenever the language changes. This is good for accessibility and SEO.
+    const lang = i18n.language.split('-')[0];
+    document.documentElement.lang = lang;
+    document.documentElement.dir = i18n.dir(lang);
+  }, [i18n.language]);
+
+  useEffect(() => {
     const timer = setInterval(() => {
       setCurrentConversationIndex(prevIndex => (prevIndex + 1) % conversations.length);
     }, 5000); // Change conversation every 5 seconds
