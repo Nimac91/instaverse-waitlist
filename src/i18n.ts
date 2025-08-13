@@ -53,7 +53,12 @@ i18n
       escapeValue: false, // react already safes from xss
     },
     detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
+      // Order of detection methods.
+      // 1. localStorage: checks for a language set by the user on a previous visit.
+      // 2. navigator: checks the browser's language setting.
+      // 'htmlTag' was removed to prevent it from incorrectly reading the static
+      // lang="en" attribute on the initial load.
+      order: ['localStorage', 'navigator'],
       caches: ['localStorage'],
     },
   });
