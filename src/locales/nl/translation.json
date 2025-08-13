@@ -1,0 +1,46 @@
+{
+    "hero": {
+        "title": {
+            "line1": "Chat in elke taal.",
+            "line2": "Jouw woorden, hun taal."
+        },
+        "description": "Ervaar de magie van real-time AI-vertaling. InstaVerse helpt je echte connecties op te bouwen door taalbarrières moeiteloos te doorbreken."
+    },
+    "form": {
+        "placeholder": "Voer je e-mailadres in",
+        "button": "Krijg vroege toegang",
+        "loading": "Wordt lid...",
+        "error": "We konden je op dit moment niet aan de wachtlijst toevoegen. Controleer je verbinding en probeer het opnieuw.",
+        "success": {
+            "title": "🎉 Welkom in de toekomst!",
+            "fallback": "Je plek is bevestigd! We kunnen niet wachten om je te zien."
+        }
+    },
+    "howItWorks": {
+        "title": "Verbind in 3 eenvoudige stappen",
+        "step1": {
+            "title": "Schrijf natuurlijk",
+            "description": "Typ in je moedertaal. Onze AI begrijpt de nuance en context."
+        },
+        "step2": {
+            "title": "Directe AI-vertaling",
+            "description": "Je bericht wordt in real-time vertaald met verbluffende nauwkeurigheid, waardoor het gesprek soepel verloopt."
+        },
+        "step3": {
+            "title": "Bouw connecties",
+            "description": "Lees zowel de vertaling als de originele tekst om te leren, te verbinden en wereldwijd vrienden te maken."
+        }
+    },
+    "languages": {
+        "title": "Alles wat je nodig hebt om wereldwijd te verbinden",
+        "description": "We ondersteunen een groeiende lijst van grote wereldtalen, waardoor het gemakkelijker dan ooit is om nieuwe vrienden te vinden en nieuwe culturen te verkennen. En we voegen er steeds meer toe!",
+        "moreSoon": "+ Binnenkort meer"
+    },
+    "showcase": {
+        "title": "Jouw wereld, verbonden",
+        "description": "InstaVerse opent een universum van nieuwe vrienden en ervaringen. Zie hoe gemakkelijk het is om een gesprek te beginnen."
+    },
+    "footer": {
+        "copyright": "Alle rechten voorbehouden."
+    }
+}

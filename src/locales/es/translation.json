@@ -1,0 +1,46 @@
+{
+    "hero": {
+        "title": {
+            "line1": "Chatea en Cualquier Idioma.",
+            "line2": "Tus Palabras, Su Idioma."
+        },
+        "description": "Experimenta la magia de la traducción por IA en tiempo real. InstaVerse te ayuda a construir conexiones genuinas rompiendo las barreras del idioma, sin esfuerzo."
+    },
+    "form": {
+        "placeholder": "Ingresa tu correo electrónico",
+        "button": "Obtener Acceso Anticipado",
+        "loading": "Uniéndote...",
+        "error": "No pudimos agregarte a la lista de espera en este momento. Por favor, verifica tu conexión e inténtalo de nuevo.",
+        "success": {
+            "title": "🎉 ¡Bienvenido al futuro!",
+            "fallback": "¡Tu lugar está confirmado! No podemos esperar a verte."
+        }
+    },
+    "howItWorks": {
+        "title": "Conecta en 3 Sencillos Pasos",
+        "step1": {
+            "title": "Escribe con Naturalidad",
+            "description": "Escribe en tu idioma nativo. Nuestra IA entiende los matices y el contexto."
+        },
+        "step2": {
+            "title": "Traducción Instantánea por IA",
+            "description": "Tu mensaje se traduce en tiempo real con una precisión asombrosa, haciendo que la conversación fluya."
+        },
+        "step3": {
+            "title": "Construye Conexiones",
+            "description": "Lee tanto la traducción como el texto original para aprender, conectar y hacer amigos en todo el mundo."
+        }
+    },
+    "languages": {
+        "title": "Todo lo que Necesitas para Conectar Globalmente",
+        "description": "Soportamos una lista creciente de los principales idiomas del mundo, facilitando más que nunca encontrar nuevos amigos y explorar nuevas culturas. ¡Y siempre estamos agregando más!",
+        "moreSoon": "+ Más Próximamente"
+    },
+    "showcase": {
+        "title": "Tu Mundo, Conectado",
+        "description": "InstaVerse abre un universo de nuevos amigos y experiencias. Mira qué fácil es iniciar una conversación."
+    },
+    "footer": {
+        "copyright": "Todos los derechos reservados."
+    }
+}

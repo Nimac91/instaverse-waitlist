@@ -1,0 +1,46 @@
+{
+    "hero": {
+        "title": {
+            "line1": "Converse em Qualquer Idioma.",
+            "line2": "Suas Palavras, a Língua Deles."
+        },
+        "description": "Experimente a magia da tradução por IA em tempo real. O InstaVerse ajuda você a construir conexões genuínas quebrando barreiras linguísticas, sem esforço."
+    },
+    "form": {
+        "placeholder": "Digite seu e-mail",
+        "button": "Obter Acesso Antecipado",
+        "loading": "Entrando...",
+        "error": "Não foi possível adicioná-lo à lista de espera no momento. Verifique sua conexão e tente novamente.",
+        "success": {
+            "title": "🎉 Bem-vindo ao futuro!",
+            "fallback": "Seu lugar está confirmado! Mal podemos esperar para vê-lo."
+        }
+    },
+    "howItWorks": {
+        "title": "Conecte-se em 3 Passos Simples",
+        "step1": {
+            "title": "Escreva Naturalmente",
+            "description": "Digite em seu idioma nativo. Nossa IA entende as nuances e o contexto."
+        },
+        "step2": {
+            "title": "Tradução Instantânea por IA",
+            "description": "Sua mensagem é traduzida em tempo real com uma precisão impressionante, fazendo a conversa fluir."
+        },
+        "step3": {
+            "title": "Construa Conexões",
+            "description": "Leia tanto a tradução quanto o texto original para aprender, se conectar e fazer amigos globalmente."
+        }
+    },
+    "languages": {
+        "title": "Tudo o Que Você Precisa para se Conectar Globalmente",
+        "description": "Apoiamos uma lista crescente dos principais idiomas do mundo, tornando mais fácil do que nunca encontrar novos amigos e explorar novas culturas. E estamos sempre adicionando mais!",
+        "moreSoon": "+ Mais em Breve"
+    },
+    "showcase": {
+        "title": "Seu Mundo, Conectado",
+        "description": "O InstaVerse abre um universo de novos amigos e experiências. Veja como é fácil iniciar uma conversa."
+    },
+    "footer": {
+        "copyright": "Todos os direitos reservados."
+    }
+}
