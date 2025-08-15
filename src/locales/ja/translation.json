@@ -17,6 +17,9 @@
             "fallback": "あなたの席は確保されました！お会いできるのを楽しみにしています。"
         }
     },
+    "languageSwitcher": {
+        "title": "言語を選択してください"
+    },
     "howItWorks": {
         "title": "3つの簡単なステップでつながる",
         "step1": {

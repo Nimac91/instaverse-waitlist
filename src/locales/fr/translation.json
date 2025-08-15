@@ -17,6 +17,9 @@
             "fallback": "Votre place est confirmée ! Nous sommes impatients de vous voir."
         }
     },
+    "languageSwitcher": {
+        "title": "Choisissez votre langue"
+    },
     "howItWorks": {
         "title": "Connectez-vous en 3 étapes simples",
         "step1": {

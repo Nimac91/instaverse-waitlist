@@ -17,6 +17,9 @@
             "fallback": "您的位置已确认！我们迫不及待地想见到您。"
         }
     },
+    "languageSwitcher": {
+        "title": "选择您的语言"
+    },
     "howItWorks": {
         "title": "通过3个简单步骤建立联系",
         "step1": {

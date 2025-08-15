@@ -17,6 +17,9 @@
             "fallback": "Dein Platz ist bestätigt! Wir können es kaum erwarten, dich zu sehen."
         }
     },
+    "languageSwitcher": {
+        "title": "Wähle deine Sprache"
+    },
     "howItWorks": {
         "title": "In 3 einfachen Schritten verbinden",
         "step1": {

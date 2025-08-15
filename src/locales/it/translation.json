@@ -17,6 +17,9 @@
             "fallback": "Il tuo posto è confermato! Non vediamo l'ora di vederti."
         }
     },
+    "languageSwitcher": {
+        "title": "Scegli la tua lingua"
+    },
     "howItWorks": {
         "title": "Connettiti in 3 semplici passaggi",
         "step1": {

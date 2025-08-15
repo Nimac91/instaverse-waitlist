@@ -17,6 +17,9 @@
             "fallback": "자리가 확정되었습니다! 곧 만나 뵙기를 기대합니다."
         }
     },
+    "languageSwitcher": {
+        "title": "언어를 선택하세요"
+    },
     "howItWorks": {
         "title": "3가지 간단한 단계로 연결",
         "step1": {

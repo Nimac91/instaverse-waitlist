@@ -17,6 +17,9 @@
             "fallback": "Twoje miejsce jest potwierdzone! Nie możemy się doczekać, aby Cię zobaczyć."
         }
     },
+    "languageSwitcher": {
+        "title": "Wybierz swój język"
+    },
     "howItWorks": {
         "title": "Połącz się w 3 prostych krokach",
         "step1": {

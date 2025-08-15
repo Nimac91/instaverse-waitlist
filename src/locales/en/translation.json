@@ -17,6 +17,9 @@
             "fallback": "Your spot is confirmed! We can't wait to see you."
         }
     },
+    "languageSwitcher": {
+        "title": "Choose your language"
+    },
     "howItWorks": {
         "title": "Connect in 3 Simple Steps",
         "step1": {

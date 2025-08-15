@@ -1,4 +1,3 @@
-
 import type { FC } from 'react';
 
 interface InstaVerseLogoProps {
@@ -9,9 +8,9 @@ export const InstaVerseLogo: FC<InstaVerseLogoProps> = ({ className }) => {
   return (
     <a href="/" aria-label="InstaVerse Home" className={`inline-block ${className}`}>
       <img
-        src="https://i.imgur.com/ea9m8az.png"
+        src="https://i.imgur.com/dpCvGd5.png"
         alt="InstaVerse Logo"
-        className="h-12 w-auto"
+        className="h-60 w-auto"
       />
     </a>
   );

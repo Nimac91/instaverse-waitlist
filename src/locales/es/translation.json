@@ -17,6 +17,9 @@
             "fallback": "¡Tu lugar está confirmado! No podemos esperar a verte."
         }
     },
+    "languageSwitcher": {
+        "title": "Elige tu idioma"
+    },
     "howItWorks": {
         "title": "Conecta en 3 Sencillos Pasos",
         "step1": {

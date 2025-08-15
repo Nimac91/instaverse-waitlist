@@ -17,6 +17,9 @@
             "fallback": "Je plek is bevestigd! We kunnen niet wachten om je te zien."
         }
     },
+    "languageSwitcher": {
+        "title": "Kies je taal"
+    },
     "howItWorks": {
         "title": "Verbind in 3 eenvoudige stappen",
         "step1": {

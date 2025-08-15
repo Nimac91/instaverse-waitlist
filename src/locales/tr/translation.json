@@ -17,6 +17,9 @@
             "fallback": "Yeriniz onaylandı! Sizi görmek için sabırsızlanıyoruz."
         }
     },
+    "languageSwitcher": {
+        "title": "Dilinizi seçin"
+    },
     "howItWorks": {
         "title": "3 Basit Adımda Bağlantı Kurun",
         "step1": {
