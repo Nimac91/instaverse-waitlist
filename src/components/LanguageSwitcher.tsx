@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, FC } from 'react';
+import { useState, useEffect, useRef, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CheckIcon, CaretDownIcon } from './Icons';
 
