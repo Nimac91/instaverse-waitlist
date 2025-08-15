@@ -97,7 +97,7 @@ const App: React.FC = () => {
         contents: prompt,
       });
 
-      setConfirmationMessage(response.text);
+      setConfirmationMessage(response.text || t('form.success.fallback'));
       setSubmitted(true);
       setEmail('');
     } catch (err) {
