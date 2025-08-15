@@ -142,6 +142,7 @@ const App: React.FC = () => {
                  {error && <p className="mt-3 text-red-600 text-sm max-w-md mx-auto lg:mx-0 text-center sm:text-left">{error}</p>}
               </div>
               
+              {/* Mockups for large screens */}
               <div className="lg:col-span-1 relative h-[600px] hidden lg:flex items-center justify-center -mr-20">
                   <div className="absolute inset-0 flex items-center justify-center">
                       <PhoneMockup 
@@ -162,6 +163,28 @@ const App: React.FC = () => {
                       />
                   </div>
               </div>
+            </div>
+
+            {/* Mockups for small screens */}
+            <div className="lg:hidden mt-16 -mx-4">
+                <div className="relative h-[500px] flex items-center justify-center">
+                    <PhoneMockup 
+                        key={`${currentConversationIndex}-1-mobile`}
+                        conversation={currentConversation}
+                        perspectiveIndex={1} 
+                        className="transform -rotate-[10deg] translate-x-8 scale-[0.8]"
+                        phoneStyle="ios"
+                        theme="light" 
+                    />
+                    <PhoneMockup 
+                        key={`${currentConversationIndex}-0-mobile`}
+                        conversation={currentConversation}
+                        perspectiveIndex={0}
+                        className="transform rotate-[10deg] -translate-x-8 z-10 scale-[0.8]"
+                        phoneStyle="android"
+                        theme="dark"
+                    />
+                </div>
             </div>
           </section>
 

@@ -11,7 +11,7 @@ export const InstaVerseLogo: FC<InstaVerseLogoProps> = ({ className }) => {
       <img
         src="https://i.imgur.com/ea9m8az.png"
         alt="InstaVerse Logo"
-        className="h-60 w-auto"
+        className="h-12 w-auto"
       />
     </a>
   );

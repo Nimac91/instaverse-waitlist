@@ -1,55 +1,54 @@
 
-import { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { useTranslation } from 'react-i18next';
 import { PhoneMockup, conversations } from './components/PhoneMockup';
 import { InstaVerseLogo } from './components/InstaVerseLogo';
-import { GlobeAltIcon } from './components/Icons';
 
-// Language switcher component
-const LanguageSwitcher: FC = () => {
-    const { i18n } = useTranslation();
+const languages = [
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'es', name: 'Spanish', flag: '🇪🇸' },
+    { code: 'ja', name: 'Japanese', flag: '🇯🇵' },
+    { code: 'fr', name: 'French', flag: '🇫🇷' },
+    { code: 'de', name: 'German', flag: '🇩🇪' },
+    { code: 'ko', name: 'Korean', flag: '🇰🇷' },
+    { code: 'zh', name: 'Mandarin', flag: '🇨🇳' },
+    { code: 'ru', name: 'Russian', flag: '🇷🇺' },
+    { code: 'ar', name: 'Arabic', flag: '🇸🇦' },
+    { code: 'pt', name: 'Portuguese', flag: '🇧🇷' },
+    { code: 'it', name: 'Italian', flag: '🇮🇹' },
+    { code: 'hi', name: 'Hindi', flag: '🇮🇳' },
+    { code: 'nl', name: 'Dutch', flag: '🇳🇱' },
+    { code: 'tr', name: 'Turkish', flag: '🇹🇷' },
+    { code: 'pl', name: 'Polish', flag: '🇵🇱' },
+];
 
-    const languages = [
-        { code: 'en', name: 'English' }, { code: 'es', name: 'Español' },
-        { code: 'ja', name: '日本語' }, { code: 'fr', name: 'Français' },
-        { code: 'de', name: 'Deutsch' }, { code: 'ko', name: '한국어' },
-        { code: 'zh', name: '中文' }, { code: 'ru', name: 'Русский' },
-        { code: 'ar', name: 'العربية' }, { code: 'pt', name: 'Português' },
-        { code: 'it', name: 'Italiano' }, { code: 'hi', name: 'हिन्दी' },
-        { code: 'nl', name: 'Nederlands' }, { code: 'tr', name: 'Türkçe' },
-        { code: 'pl', name: 'Polski' },
-    ];
+const LanguageSwitcher: React.FC = () => {
+  const { i18n } = useTranslation();
 
-    const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        i18n.changeLanguage(e.target.value);
-    };
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
 
-    return (
-        <div className="relative inline-block text-left mt-4 md:mt-0">
-            <div className="group">
-                 <div className="inline-flex items-center text-gray-500">
-                    <GlobeAltIcon className="w-5 h-5 mr-2" />
-                    <select
-                        onChange={changeLanguage}
-                        value={i18n.language}
-                        className="bg-white text-gray-500 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 py-1 pr-8 appearance-none"
-                        aria-label="Select language"
-                    >
-                        {languages.map(lang => (
-                            <option key={lang.code} value={lang.code}>
-                                {lang.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex justify-center items-center flex-wrap gap-x-3 gap-y-2 mt-4">
+        {languages.map((lang) => (
+            <button 
+                key={lang.code} 
+                onClick={() => changeLanguage(lang.code)} 
+                title={lang.name} 
+                aria-label={`Switch to ${lang.name}`}
+                className={`text-2xl rounded-md p-1 transition-all duration-200 hover:scale-125 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white ${i18n.language.startsWith(lang.code) ? 'scale-110 ring-2 ring-blue-500 ring-offset-2' : 'grayscale hover:grayscale-0'}`}
+            >
+                {lang.flag}
+            </button>
+        ))}
+    </div>
+  );
 };
 
 
-const App: FC = () => {
+const App: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -59,17 +58,9 @@ const App: FC = () => {
   const [currentConversationIndex, setCurrentConversationIndex] = useState(0);
 
   useEffect(() => {
-    // This effect updates the HTML tag's lang and dir attributes
-    // whenever the language changes. This is good for accessibility and SEO.
-    const lang = i18n.language.split('-')[0];
-    document.documentElement.lang = lang;
-    document.documentElement.dir = i18n.dir(lang);
-  }, [i18n.language]);
-
-  useEffect(() => {
     const timer = setInterval(() => {
       setCurrentConversationIndex(prevIndex => (prevIndex + 1) % conversations.length);
-    }, 5000); // Change conversation every 5 seconds
+    }, 5000);
     
     return () => clearInterval(timer);
   }, []);
@@ -80,7 +71,7 @@ const App: FC = () => {
       await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json', },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailToLog }),
       });
     } catch (error) {
@@ -94,41 +85,36 @@ const App: FC = () => {
 
     setIsLoading(true);
     setError(null);
-
     await logEmailToSheet(email);
 
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      const prompt = `A user with the email ${email} just signed up for the waitlist for "InstaVerse", our new AI chat app that offers real-time translation. Generate a short, enthusiastic, and friendly confirmation message (2-3 sentences) in the language with this code: ${i18n.language}. Confirm they're on the waitlist and build excitement for the launch.`;
+      const currentLanguageName = languages.find(l => i18n.language.startsWith(l.code))?.name || 'English';
+      const prompt = `A user with the email ${email} just signed up for the waitlist for "InstaVerse", our new AI chat app that offers real-time translation. Generate a short, enthusiastic, and friendly confirmation message (2-3 sentences) in ${currentLanguageName}. Confirm they're on the waitlist and build excitement for the launch.`;
       
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: prompt,
       });
 
-      setConfirmationMessage(response.text ?? t('form.success.fallback'));
+      setConfirmationMessage(response.text);
       setSubmitted(true);
       setEmail('');
-    } catch (err)
- {
+    } catch (err) {
       console.error("API Error:", err);
       setError(t('form.error'));
     } finally {
       setIsLoading(false);
     }
   };
-
+  
   const howItWorks = [
     { num: 1, title: t('howItWorks.step1.title'), description: t('howItWorks.step1.description') },
     { num: 2, title: t('howItWorks.step2.title'), description: t('howItWorks.step2.description') },
     { num: 3, title: t('howItWorks.step3.title'), description: t('howItWorks.step3.description') },
   ];
   
-  const supportedLanguages = [
-    'English', 'Spanish', 'Japanese', 'French', 'German', 'Korean', 'Mandarin',
-    'Russian', 'Arabic', 'Portuguese', 'Italian', 'Hindi', 'Dutch', 'Turkish', 'Polish'
-  ];
-
+  const supportedLanguages = languages.map(lang => lang.name);
   const currentConversation = conversations[currentConversationIndex];
 
   return (
@@ -137,84 +123,16 @@ const App: FC = () => {
         <main>
           {/* Hero Section */}
           <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="lg:col-span-1 text-center lg:text-left">
-                <InstaVerseLogo className="mb-8 mx-auto lg:mx-0" />
+            <div className="flex flex-col items-center text-center">
 
-                {/* Mobile mockups - shown only on mobile, placed here to be below the logo */}
-                <div className="lg:hidden my-8">
-                    <div className="relative h-[500px] flex items-center justify-center -mx-4">
-                        <PhoneMockup 
-                            key={`${currentConversationIndex}-1-mobile`}
-                            conversation={currentConversation}
-                            perspectiveIndex={1} 
-                            className="transform -rotate-[10deg] translate-x-8 scale-[0.8]"
-                            phoneStyle="ios"
-                            theme="light" 
-                        />
-                        <PhoneMockup 
-                            key={`${currentConversationIndex}-0-mobile`}
-                            conversation={currentConversation}
-                            perspectiveIndex={0}
-                            className="transform rotate-[10deg] -translate-x-8 z-10 scale-[0.8]"
-                            phoneStyle="android"
-                            theme="dark"
-                        />
-                    </div>
-                </div>
-
-                <h1 className="text-5xl font-extrabold tracking-tighter leading-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-500">
-                  {t('hero.title.line1')}
-                  <br />
-                  {t('hero.title.line2')}
-                </h1>
-                <p className="mt-6 text-lg text-gray-600 max-w-xl mx-auto lg:mx-0">
-                  {t('hero.description')}
-                </p>
-                {submitted ? (
-                    <div className="mt-8 max-w-md mx-auto lg:mx-0 bg-green-100 border border-green-200 text-green-800 p-4 rounded-lg animate-fade-in-up">
-                        <p className="font-bold">{t('form.success.title')}</p>
-                        <p className="mt-1">{confirmationMessage}</p>
-                    </div>
-                ) : (
-                    <form onSubmit={handleSubmit} className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto lg:mx-0">
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder={t('form.placeholder')}
-                        className="flex-grow w-full px-5 py-3 text-base text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
-                        required
-                        disabled={isLoading}
-                    />
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-base px-6 py-3 rounded-md shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center"
-                    >
-                        {isLoading ? (
-                            <>
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                {t('form.loading')}
-                            </>
-                        ) : t('form.button')}
-                    </button>
-                    </form>
-                )}
-                 {error && <p className="mt-3 text-red-600 text-sm max-w-md mx-auto lg:mx-0 text-center sm:text-left">{error}</p>}
-              </div>
-              
-              {/* Desktop mockups - hidden on mobile */}
-              <div className="relative h-[600px] hidden lg:flex items-center justify-center -mr-20 lg:col-span-1">
-                  <div className="absolute inset-0 flex items-center justify-center">
+              {/* Unified Mockups - Positioned above the text */}
+              <div className="relative h-[1440px] sm:h-[1800px] w-full flex items-center justify-center mb-12">
+                  <div className="flex items-center justify-center">
                       <PhoneMockup 
                         key={`${currentConversationIndex}-1`}
                         conversation={currentConversation}
                         perspectiveIndex={1} 
-                        className="transform -rotate-[10deg] translate-x-12"
+                        className="transform -rotate-[10deg] translate-x-24 sm:translate-x-36 scale-[2.4] sm:scale-[3]"
                         phoneStyle="ios"
                         theme="light" 
                       />
@@ -222,12 +140,57 @@ const App: FC = () => {
                         key={`${currentConversationIndex}-0`}
                         conversation={currentConversation}
                         perspectiveIndex={0}
-                        className="transform rotate-[10deg] -translate-x-12 z-10"
+                        className="transform rotate-[10deg] -translate-x-24 sm:-translate-x-36 z-10 scale-[2.4] sm:scale-[3]"
                         phoneStyle="android"
                         theme="dark"
                       />
                   </div>
               </div>
+              
+              {/* Text, Form Content */}
+              <InstaVerseLogo className="mb-8" />
+              <h1 className="text-5xl font-extrabold tracking-tighter leading-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-500">
+                {t('hero.title.line1')}
+                <br />
+                {t('hero.title.line2')}
+              </h1>
+              <p className="mt-6 text-lg text-gray-600 max-w-xl">
+                {t('hero.description')}
+              </p>
+              {submitted ? (
+                  <div className="mt-8 w-full max-w-md bg-green-100 border border-green-200 text-green-800 p-4 rounded-lg animate-fade-in-up">
+                      <p className="font-bold">{t('form.success.title')}</p>
+                      <p className="mt-1">{confirmationMessage || t('form.success.fallback')}</p>
+                  </div>
+              ) : (
+                  <form onSubmit={handleSubmit} className="mt-8 flex flex-col sm:flex-row gap-3 w-full max-w-md">
+                  <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder={t('form.placeholder')}
+                      className="flex-grow w-full px-5 py-3 text-base text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                      required
+                      disabled={isLoading}
+                  />
+                  <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-base px-6 py-3 rounded-md shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center"
+                  >
+                      {isLoading ? (
+                          <>
+                              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                              {t('form.loading')}
+                          </>
+                      ) : t('form.button')}
+                  </button>
+                  </form>
+              )}
+               {error && <p className="mt-3 text-red-600 text-sm w-full max-w-md">{error}</p>}
             </div>
           </section>
 
@@ -292,8 +255,8 @@ const App: FC = () => {
           </section>
         </main>
         <footer className="border-t border-gray-200 py-6 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-center">
-                 <p className="text-gray-500 text-sm">&copy; {new Date().getFullYear()} InstaVerse. {t('footer.copyright')}</p>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <p className="text-gray-500 text-sm">&copy; {new Date().getFullYear()} InstaVerse. {t('footer.copyright')}</p>
                 <LanguageSwitcher />
             </div>
         </footer>
@@ -302,4 +265,11 @@ const App: FC = () => {
   );
 };
 
-export default App;
+
+const AppWrapper: React.FC = () => (
+  <Suspense fallback="Loading...">
+    <App />
+  </Suspense>
+);
+
+export default AppWrapper;

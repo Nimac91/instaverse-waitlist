@@ -127,7 +127,6 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ conversation, perspectiveIndex,
                     };
                     return <ChatMessage key={index} {...chatMsgProps} />;
                 })}
-                 <div className="pb-4" />
             </div>
 
             {/* Input Bar */}

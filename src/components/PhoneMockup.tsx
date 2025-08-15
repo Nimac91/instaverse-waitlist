@@ -1,5 +1,5 @@
 
-import type { FC } from 'react';
+import React from 'react';
 import { ChatMessage, ChatMessageProps } from './ChatMessage';
 import { ArrowLeftIcon, MoreHorizontalIcon, PaperAirplaneIcon } from './Icons';
 
@@ -94,7 +94,7 @@ const messagePlaceholders: { [key: string]: string } = {
     Arabic: 'رسالة...',
 };
 
-const ChatScreen: FC<ChatScreenProps> = ({ conversation, perspectiveIndex, theme, phoneStyle }) => {
+const ChatScreen: React.FC<ChatScreenProps> = ({ conversation, perspectiveIndex, theme, phoneStyle }) => {
     const currentUser = conversation.partners[perspectiveIndex];
     const otherUser = conversation.partners[perspectiveIndex === 0 ? 1 : 0];
     const isDark = theme === 'dark';
@@ -127,14 +127,13 @@ const ChatScreen: FC<ChatScreenProps> = ({ conversation, perspectiveIndex, theme
                     };
                     return <ChatMessage key={index} {...chatMsgProps} />;
                 })}
-                 <div className="pb-4" />
             </div>
 
             {/* Input Bar */}
             <div className={`p-2 z-10 ${isDark ? 'bg-gray-800 border-t border-gray-700' : 'bg-gray-50 border-t border-gray-200'}`}>
                 <div className={`flex items-center rounded-full p-1 ${isDark ? 'bg-gray-700 border border-gray-600' : 'bg-white border border-gray-300'}`}>
-                   <input type="text" placeholder={placeholderText} className={`flex-grow bg-transparent text-sm px-3 focus:outline-none ${isDark ? 'text-gray-200 placeholder-gray-400' : 'text-gray-700'}`} />
-                   <button className="bg-blue-500 rounded-full p-2 ml-2 flex-shrink-0">
+                   <input type="text" placeholder={placeholderText} className={`flex-grow bg-transparent text-sm px-3 focus:outline-none ${isDark ? 'text-gray-200 placeholder-gray-400' : 'text-gray-700'}`} readOnly />
+                   <button className="bg-blue-500 rounded-full p-2 ml-2 flex-shrink-0" aria-label="Send message">
                        <PaperAirplaneIcon className="w-4 h-4 text-white" />
                    </button>
                 </div>
@@ -152,7 +151,7 @@ interface PhoneMockupProps {
     theme?: Theme;
 }
 
-export const PhoneMockup: FC<PhoneMockupProps> = ({ conversation, perspectiveIndex, className, phoneStyle = 'ios', theme = 'light' }) => {
+export const PhoneMockup: React.FC<PhoneMockupProps> = ({ conversation, perspectiveIndex, className, phoneStyle = 'ios', theme = 'light' }) => {
     const isIOS = phoneStyle === 'ios';
 
     const frameClasses = isIOS 
