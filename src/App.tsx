@@ -257,8 +257,12 @@ const App: React.FC = () => {
           </section>
         </main>
         <footer className="border-t border-gray-200 py-6 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <p className="text-gray-500 text-sm">&copy; {new Date().getFullYear()} InstaVerse. {t('footer.copyright')}</p>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p className="text-gray-500 text-sm text-center sm:text-left">&copy; {new Date().getFullYear()} InstaVerse. {t('footer.copyright')}</p>
+                <div className="flex items-center gap-6">
+                    <a href="#" className="text-sm text-gray-500 hover:text-gray-800 transition-colors">{t('footer.privacy')}</a>
+                    <a href="#" className="text-sm text-gray-500 hover:text-gray-800 transition-colors">{t('footer.terms')}</a>
+                </div>
             </div>
         </footer>
       </div>
